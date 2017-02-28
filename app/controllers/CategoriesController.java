@@ -31,9 +31,9 @@ public class CategoriesController extends Controller
     public Result getCategories()
     {
         List<Category> categories = (List<Category>) jpaApi.em().
-                createQuery("select categoryId, categoryName from Categories").getResultList();
+                createQuery("select categoryId, categoryName from Category").getResultList();
 
-        return ok(toJson(categories));
+        return ok(views.html.categories.render(categories));
     }
 
     @Transactional(readOnly = true)
@@ -70,18 +70,17 @@ public class CategoriesController extends Controller
     @Transactional
     public Result getPicture(Long id)
     {
-        Category category = (Category)jpaApi.em().
-                createQuery("select c from Categories c where categoryID = :id").
+        Photo photo = (Photo)jpaApi.em().
+                createQuery("select p from Photo p where photoId = :id").
                 setParameter("id", id).getSingleResult();
 
-        if (Photo.photoData == null)
+        if (photo.photoData == null)
         {
             return null;
         }else{
-            return ok(Photo.photoData).as("image/bmp");
+            return ok(photo.photoData).as("image/bmp");
         }
 
-        return null;
     }
 
     @Transactional(readOnly = true)

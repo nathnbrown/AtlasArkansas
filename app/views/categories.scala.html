@@ -31,13 +31,9 @@ th, td {
 tr:nth-child(even){background-color: #f2f2f2}
 
 
-
-
-
 </style>
 </head>
 <body>
-<img src="http://www.nyan.cat/cats/original.gif"/></a>
 <h1>List of Categories</h1>
 
 <table>
@@ -51,9 +47,9 @@ tr:nth-child(even){background-color: #f2f2f2}
 
     @for(category <- categories) {
     <tr>
-        <td><a href="@routes.CategoriesController.editCategory(category.categoryID)">Edit</a></td>
+        <td><a href="@routes.CategoriesController.editCategory(category.categoryId)">Edit</a></td>
         <td>@category.categoryName</td>
-        <td><img src=@{routes.CategoriesController.getPicture(category.categoryID)}></td>
+        <td><img src=@{routes.CategoriesController.getPicture(category.categoryId)}></td>
     </tr>
     }
 </table>
