@@ -27,14 +27,14 @@ public class CategoriesController extends Controller
         this.jpaApi = jpaApi;
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public Result getCategories()
     {
         List<Category> categories = (List<Category>) jpaApi.em().
                 createQuery("select categoryId, categoryName from Category").getResultList();
 
         return ok(views.html.categories.render(categories));
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public Result index()
