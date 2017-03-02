@@ -132,6 +132,12 @@ public class CategoriesController extends Controller
         return null;
     }
 
+    public Result getMap()
+    {
+
+        return ok(views.html.map.render());    }
+
+
 
 
 

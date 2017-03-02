@@ -8,7 +8,7 @@
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Categories page
-# GET     /categories                 controllers.CategoriesController.getCategories()
+# GET   /categories                 controllers.CategoriesController.getCategories()
 GET     /categoriesList             controllers.CategoriesController.index()
 
 GET     /newCategory                controllers.CategoriesController.newCategory
@@ -18,4 +18,6 @@ GET     /editCategory/:id           controllers.CategoriesController.editCategor
 POST    /updateCategory             controllers.CategoriesController.updateCategory
 
 GET     /categoriesPicture/:id      controllers.CategoriesController.getPicture(id:Long)
+
+GET     /map                        controllers.CategoriesController.getMap
 
