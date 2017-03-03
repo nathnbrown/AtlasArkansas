@@ -159,7 +159,7 @@ var arkansas = L.geoJson(null, {
     });
   }
 });
-$.getJSON("data/arkansas.geojson", function (data) {
+$.getJSON("assets/data/arkansas.geojson", function (data) {
   arkansas.addData(data);
 });
 

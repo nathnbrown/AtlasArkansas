@@ -16,10 +16,10 @@ public class Place
     public String name;
 
     @Column(name = "LATITUDE")
-    public String latitude;
+    public double latitude;
 
     @Column(name = "LONGITUDE")
-    public String longitude;
+    public double longitude;
 
     @Column(name = "DESCRIPTION")
     public String description;

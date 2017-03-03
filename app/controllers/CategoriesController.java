@@ -2,6 +2,7 @@ package controllers;
 
 import models.Category;
 import models.Photo;
+import models.Place;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 
+import static play.data.Form.form;
 import static play.libs.Json.toJson;
 
 public class CategoriesController extends Controller
@@ -132,10 +134,17 @@ public class CategoriesController extends Controller
         return null;
     }
 
+
+
     public Result getMap()
     {
+        Place place = new Place();
+        place.name = "Conway";
+        place.longitude = -92.441559;
+        place.latitude = 35.090328;
 
-        return ok(views.html.map.render());    }
+        return ok(views.html.map.render(place));
+    }
 
 
 
