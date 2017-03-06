@@ -134,8 +134,6 @@ public class CategoriesController extends Controller
         return null;
     }
 
-
-
     public Result getMap()
     {
         Place place = new Place();
@@ -146,6 +144,23 @@ public class CategoriesController extends Controller
         return ok(views.html.map.render(place));
     }
 
+    public Result getLocation()
+    {
+        return ok("{\n" +
+                "\"type\": \"FeatureCollection\",\n" +
+                "                                                                                \n" +
+                "\"features\": [\n" +
+                "\n" +
+                "{ \"type\": \"Feature\", \"id\": 0, \"properties\": { \"NAME\": \"45th Street Theater\", \"TEL\": \"(212) 352-3101\", \"URL\": \"http:\\/\\/www.theatermania.com\\/new-york\\/theaters\\/45th-street-theatre_2278\\/\", \"ADDRESS1\": \"354 West 45th Street\", \"ADDRES2\": null, \"CITY\": \"New York\", \"ZIP\": 10036.0 }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ -92.44377136230469,35.08788871002626 ] } }\n" +
+                ",\n" +
+                "{ \"type\": \"Feature\", \"id\": 116, \"properties\": { \"NAME\": \"Delacorte Theater\", \"TEL\": \"(212) 861-7277\", \"URL\": \"http:\\/\\/www.centralpark.com\\/pages\\/attractions\\/delacorte-theatre.html\", \"ADDRESS1\": \"Central Park - Mid-Park at 80th Street\", \"ADDRES2\": \"SW corner of the Great Lawn\", \"CITY\": \"New York\", \"ZIP\": 0.0 }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ -92.54377136230469,35.08788871002626 ] } }\n" +
+                ",\n" +
+                "{ \"type\": \"Feature\", \"id\": 116, \"properties\": { \"NAME\": \"Delacorte Theater\", \"TEL\": \"(212) 861-7277\", \"URL\": \"http:\\/\\/www.centralpark.com\\/pages\\/attractions\\/delacorte-theatre.html\", \"ADDRESS1\": \"Central Park - Mid-Park at 80th Street\", \"ADDRES2\": \"SW corner of the Great Lawn\", \"CITY\": \"New York\", \"ZIP\": 0.0 }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ -92.64377136230469,35.08788871002626 ] } }\n" +
+                ",\n" +
+                "{ \"type\": \"Feature\", \"id\": 116, \"properties\": { \"NAME\": \"Delacorte Theater\", \"TEL\": \"(212) 861-7277\", \"URL\": \"http:\\/\\/www.centralpark.com\\/pages\\/attractions\\/delacorte-theatre.html\", \"ADDRESS1\": \"Central Park - Mid-Park at 80th Street\", \"ADDRES2\": \"SW corner of the Great Lawn\", \"CITY\": \"New York\", \"ZIP\": 0.0 }, \"geometry\": { \"type\": \"Point\", \"coordinates\": [ -92.74377136230469,35.08788871002626 ] } }\n" +
+                "]\n" +
+                "}\n");
+    }
 
 
 

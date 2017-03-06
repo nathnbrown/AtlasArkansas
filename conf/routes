@@ -21,3 +21,4 @@ GET     /categoriesPicture/:id      controllers.CategoriesController.getPicture(
 
 GET     /map                        controllers.CategoriesController.getMap
 
+GET     /location                   controllers.CategoriesController.getLocation
