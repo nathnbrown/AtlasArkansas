@@ -31,9 +31,10 @@ public class CategoriesController extends Controller
 
     @Transactional(readOnly = true)
     public Result getLocation()
-
     {
-        List<Place> places = (List<Place>) jpaApi.em().createQuery("select p from Place p").getResultList();
+        //get cat it for request
+        String id = request().getQueryString("categoryId");
+        List<Place> places = (List<Place>) jpaApi.em().createQuery("select p from Place p where categoryId = :id").setParameter("id", id).getResultList();
 
         GeoJSON geoJSON = new GeoJSON();
 
