@@ -17,7 +17,7 @@ import static play.libs.Json.toJson;
 
 public class CategoriesController extends Controller
 {
-
+/*
     private final JPAApi jpaApi;
 
     @Inject
@@ -26,7 +26,7 @@ public class CategoriesController extends Controller
         this.jpaApi = jpaApi;
 
     }
-/*
+
     @Transactional(readOnly = true)
     public Result index()
     {
@@ -37,11 +37,23 @@ public class CategoriesController extends Controller
 
         for(Place place: places)
         {
+        places.add();
+        places.add();
+
+
 
         }
         return ok("TODO");
     }
-    */
+
+*/
+
+    public Result getMap()
+    {
+        Place place = new Place();
+
+        return ok(views.html.map.render(place));
+    }
 
     public Result getLocation()
     {
