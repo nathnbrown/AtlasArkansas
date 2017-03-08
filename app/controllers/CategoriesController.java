@@ -2,22 +2,24 @@ package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.*;
-import play.data.DynamicForm;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.List;
 
-import static play.data.Form.form;
-import static play.libs.Json.toJson;
 
 public class CategoriesController extends Controller
 {
-/*
+
+    public Result getMap()
+    {
+
+        return ok(views.html.map.render());
+    }
+
+
     private final JPAApi jpaApi;
 
     @Inject
@@ -28,33 +30,46 @@ public class CategoriesController extends Controller
     }
 
     @Transactional(readOnly = true)
-    public Result index()
+    public Result getLocation()
+
     {
-        List<Place> places = (List<Place>) jpaApi.em().
-                createQuery("select p from Places p").getResultList();
+        List<Place> places = (List<Place>) jpaApi.em().createQuery("select p from Place p").getResultList();
 
         GeoJSON geoJSON = new GeoJSON();
 
         for(Place place: places)
         {
-        places.add();
-        places.add();
+            Feature feature = new Feature();
+            feature.setId(place.placeId);
+            feature.getProperties().setNAME(place.name);
+            feature.getProperties().setURL(place.url);
+            feature.getGeometry().getCoordinates().add(place.longitude);
+            feature.getGeometry().getCoordinates().add(place.latitude);
 
-
-
+            geoJSON.getFeatures().add(feature);
         }
-        return ok("TODO");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String jsonString = null;
+
+        try
+        {
+            jsonString = mapper.writeValueAsString(geoJSON);
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        System.out.println(jsonString);
+
+        return ok(jsonString);
     }
 
-*/
 
-    public Result getMap()
-    {
-        Place place = new Place();
 
-        return ok(views.html.map.render(place));
-    }
 
+/*
     public Result getLocation()
     {
         GeoJSON geoJSON = new GeoJSON();
@@ -62,7 +77,7 @@ public class CategoriesController extends Controller
         Feature feature = new Feature();
         feature.setId(1);
         feature.getProperties().setNAME("Test location");
-        feature.getProperties().setURL("www.Google.com");
+        feature.getProperties().setURL("www.testing.com");
         feature.getGeometry().getCoordinates().add(-92.44377136230469);
         feature.getGeometry().getCoordinates().add(35.08788871002626);
 
@@ -83,9 +98,8 @@ public class CategoriesController extends Controller
         System.out.println(jsonString);
 
         return ok(jsonString);
+        }
+*/
 
-
-
-    }
 
 }
