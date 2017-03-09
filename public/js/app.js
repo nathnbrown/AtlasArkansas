@@ -302,7 +302,7 @@ var museums = L.geoJson(null, {
     }
   }
 });
-$.getJSON("location", function (data) {
+$.getJSON("location?categoryId=1", function (data) {
   museums.addData(data);
 });
 

@@ -22,7 +22,7 @@ public class Feature {
     @JsonProperty("type")
     private String type = "Feature";
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("properties")
     private Properties properties = new Properties();
     @JsonProperty("geometry")
@@ -41,12 +41,12 @@ public class Feature {
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
