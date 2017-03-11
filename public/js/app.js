@@ -1,4 +1,4 @@
-var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], movieSiteSearch = [];   		
+var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], movieSiteSearch = [], roadsideAttractionSearch = [];   		
 
 $(window).resize(function() {
   sizeLayerControl();
@@ -120,6 +120,14 @@ function syncSidebar() {
     if (map.hasLayer(movieSiteLayer)) {
       if (map.getBounds().contains(layer.getLatLng())) {
         $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/moviesite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      }
+    }
+  });
+   /* Loop through roadside attractions layer and add only features which are in the map bounds */
+  roadsideAttractions.eachLayer(function (layer) {
+    if (map.hasLayer(roadsideAttractionLayer)) {
+      if (map.getBounds().contains(layer.getLatLng())) {
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/roadsideattraction.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       }
     }
   });
@@ -403,7 +411,47 @@ var movieSites = L.geoJson(null, {
 $.getJSON("location?categoryId=5", function (data) {
   movieSites.addData(data);
 });
-
+/* Empty layer placeholder to add to layer control for listening when to add/remove roadside attractions to markerClusters layer */
+var roadsideAttractionLayer = L.geoJson(null);
+var roadsideAttractions = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/roadsideattraction.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: feature.properties.NAME,
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      layer.on({
+        click: function (e) {
+          $("#feature-title").html(feature.properties.NAME);
+          $("#feature-info").html(content);
+          $("#featureModal").modal("show");
+          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+        }
+      });
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/roadsideattraction.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      roadsideAttractionSearch.push({
+        name: layer.feature.properties.NAME,
+        address: layer.feature.properties.ADRESS1,
+        source: "Roadside Attractions",
+        id: L.stamp(layer),
+        lat: layer.feature.geometry.coordinates[1],
+        lng: layer.feature.geometry.coordinates[0]
+      });
+    }
+  }
+});
+$.getJSON("location?categoryId=5", function (data) {
+  roadsideAttractions.addData(data);
+});
 map = L.map("map", {
   zoom: 7,
   center: [35.0887000, -92.4421000],
@@ -430,6 +478,10 @@ map.on("overlayadd", function(e) {
     markerClusters.addLayer(movieSites);
     syncSidebar();
   }
+  if (e.layer === roadsideAttractionLayer) {
+    markerClusters.addLayer(roadsideAttractions);
+    syncSidebar();
+  }
 });
 
 map.on("overlayremove", function(e) {
@@ -447,6 +499,10 @@ map.on("overlayremove", function(e) {
   }
   if (e.layer === movieSiteLayer) {
     markerClusters.removeLayer(movieSites);
+    syncSidebar();
+  }
+  if (e.layer === roadsideAttractionLayer) {
+    markerClusters.removeLayer(roadsideAttractions);
     syncSidebar();
   }
 });
@@ -535,7 +591,8 @@ var groupedOverlays = {
     "<img src='assets/img/cave.png' width='24' height='28'>&nbsp;Caves": caveLayer,
     "<img src='assets/img/waterfall.png' width='24' height='28'>&nbsp;Waterfalls": waterfallLayer,
     "<img src='assets/img/historicalmarker.png' width='24' height='28'>&nbsp;Historical Markers": historicalMarkerLayer,
-    "<img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites": movieSiteLayer
+    "<img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites": movieSiteLayer,
+    "<img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions": roadsideAttractionLayer
 
   },
   "Reference": {
@@ -623,6 +680,16 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
+  var roadsideAttractionsBH = new Bloodhound({
+    name: "Roadside Attractions",
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: roadsideAttractionSearch,
+    limit: 10
+  });
+
   var geonamesBH = new Bloodhound({
     name: "GeoNames",
     datumTokenizer: function (d) {
@@ -658,6 +725,7 @@ $(document).one("ajaxStop", function () {
   waterfallsBH.initialize();
   historicalMarkersBH.initialize();
   movieSitesBH.initialize();
+  roadsideAttractionsBH.initialize();
   geonamesBH.initialize();
 
   /* instantiate the typeahead UI */
@@ -708,6 +776,15 @@ $(document).one("ajaxStop", function () {
     }
   },
   {
+    name: "Roadside Attractions",
+    displayKey: "name",
+    source: roadsideAttractionsBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'><img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions</h4>",
+      suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+    }
+  },
+  {
     name: "GeoNames",
     displayKey: "name",
     source: geonamesBH.ttAdapter(),
@@ -748,6 +825,15 @@ $(document).one("ajaxStop", function () {
     if (datum.source === "Movie Sites") {
       if (!map.hasLayer(movieSiteLayer)) {
         map.addLayer(movieSiteLayer);
+      }
+      map.setView([datum.lat, datum.lng], 17);
+      if (map._layers[datum.id]) {
+        map._layers[datum.id].fire("click");
+      }
+    }
+    if (datum.source === "Roadside Attractions") {
+      if (!map.hasLayer(roadsideAttractionLayer)) {
+        map.addLayer(roadsideAttractionLayer);
       }
       map.setView([datum.lat, datum.lng], 17);
       if (map._layers[datum.id]) {
