@@ -1,4 +1,4 @@
-var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [];   		
+var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], movieSiteSearch = [];   		
 
 $(window).resize(function() {
   sizeLayerControl();
@@ -112,6 +112,14 @@ function syncSidebar() {
     if (map.hasLayer(historicalMarkerLayer)) {
       if (map.getBounds().contains(layer.getLatLng())) {
         $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/historicalmarker.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      }
+    }
+  });
+  /* Loop through movie sites layer and add only features which are in the map bounds */
+  movieSites.eachLayer(function (layer) {
+    if (map.hasLayer(movieSiteLayer)) {
+      if (map.getBounds().contains(layer.getLatLng())) {
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/moviesite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       }
     }
   });
@@ -267,9 +275,9 @@ var caves = L.geoJson(null, {
     }
   }
 });
-$.getJSON("location?categoryId=1", function (data) {
+$.getJSON("location?categoryId=4", function (data) {
   caves.addData(data);
-  map.addLayer(caveLayer);
+  //map.addLayer(caveLayer); -- this is what the map opens on if wanted
 });
 
 /* Empty layer placeholder to add to layer control for listening when to add/remove waterfalls to markerClusters layer */
@@ -310,7 +318,7 @@ var waterfalls = L.geoJson(null, {
     }
   }
 });
-$.getJSON("location?categoryId=2", function (data) {
+$.getJSON("location?categoryId=3", function (data) {
   waterfalls.addData(data);
 });
 /* Empty layer placeholder to add to layer control for listening when to add/remove Historical Markers to markerClusters layer */
@@ -351,8 +359,49 @@ var historicalMarkers = L.geoJson(null, {
     }
   }
 });
-$.getJSON("location?categoryId=3", function (data) {
+$.getJSON("location?categoryId=1", function (data) {
   historicalMarkers.addData(data);
+});
+/* Empty layer placeholder to add to layer control for listening when to add/remove movie sites to markerClusters layer */
+var movieSiteLayer = L.geoJson(null);
+var movieSites = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/moviesite.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: feature.properties.NAME,
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      layer.on({
+        click: function (e) {
+          $("#feature-title").html(feature.properties.NAME);
+          $("#feature-info").html(content);
+          $("#featureModal").modal("show");
+          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+        }
+      });
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/moviesite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      movieSiteSearch.push({
+        name: layer.feature.properties.NAME,
+        address: layer.feature.properties.ADRESS1,
+        source: "Movie Sites",
+        id: L.stamp(layer),
+        lat: layer.feature.geometry.coordinates[1],
+        lng: layer.feature.geometry.coordinates[0]
+      });
+    }
+  }
+});
+$.getJSON("location?categoryId=5", function (data) {
+  movieSites.addData(data);
 });
 
 map = L.map("map", {
@@ -377,6 +426,10 @@ map.on("overlayadd", function(e) {
     markerClusters.addLayer(historicalMarkers);
     syncSidebar();
   }
+  if (e.layer === movieSiteLayer) {
+    markerClusters.addLayer(movieSites);
+    syncSidebar();
+  }
 });
 
 map.on("overlayremove", function(e) {
@@ -390,6 +443,10 @@ map.on("overlayremove", function(e) {
   }
   if (e.layer === historicalMarkerLayer) {
     markerClusters.removeLayer(historicalMarkers);
+    syncSidebar();
+  }
+  if (e.layer === movieSiteLayer) {
+    markerClusters.removeLayer(movieSites);
     syncSidebar();
   }
 });
@@ -477,8 +534,8 @@ var groupedOverlays = {
   "Points of Interest": {
     "<img src='assets/img/cave.png' width='24' height='28'>&nbsp;Caves": caveLayer,
     "<img src='assets/img/waterfall.png' width='24' height='28'>&nbsp;Waterfalls": waterfallLayer,
-    "<img src='assets/img/historicalmarker.png' width='24' height='28'>&nbsp;Historical Markers": historicalMarkerLayer
-    
+    "<img src='assets/img/historicalmarker.png' width='24' height='28'>&nbsp;Historical Markers": historicalMarkerLayer,
+    "<img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites": movieSiteLayer
 
   },
   "Reference": {
@@ -556,6 +613,16 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
+  var movieSitesBH = new Bloodhound({
+    name: "Movie Sites",
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: movieSiteSearch,
+    limit: 10
+  });
+
   var geonamesBH = new Bloodhound({
     name: "GeoNames",
     datumTokenizer: function (d) {
@@ -590,6 +657,7 @@ $(document).one("ajaxStop", function () {
   cavesBH.initialize();
   waterfallsBH.initialize();
   historicalMarkersBH.initialize();
+  movieSitesBH.initialize();
   geonamesBH.initialize();
 
   /* instantiate the typeahead UI */
@@ -631,6 +699,15 @@ $(document).one("ajaxStop", function () {
     }
   },
   {
+    name: "Movie Sites",
+    displayKey: "name",
+    source: movieSitesBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'><img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites</h4>",
+      suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+    }
+  },
+  {
     name: "GeoNames",
     displayKey: "name",
     source: geonamesBH.ttAdapter(),
@@ -662,6 +739,15 @@ $(document).one("ajaxStop", function () {
       if (datum.source === "Historical Markers") {
       if (!map.hasLayer(historicalMarkerLayer)) {
         map.addLayer(historicalMarkerLayer);
+      }
+      map.setView([datum.lat, datum.lng], 17);
+      if (map._layers[datum.id]) {
+        map._layers[datum.id].fire("click");
+      }
+    }
+    if (datum.source === "Movie Sites") {
+      if (!map.hasLayer(movieSiteLayer)) {
+        map.addLayer(movieSiteLayer);
       }
       map.setView([datum.lat, datum.lng], 17);
       if (map._layers[datum.id]) {
