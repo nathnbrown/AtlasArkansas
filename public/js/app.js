@@ -1,4 +1,4 @@
-var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], movieSiteSearch = [], roadsideAttractionSearch = [];   		
+var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], filmSiteSearch = [], roadsideAttractionSearch = [], legendSearch = [], meteoriteSearch = [];   		
 
 $(window).resize(function() {
   sizeLayerControl();
@@ -115,11 +115,11 @@ function syncSidebar() {
       }
     }
   });
-  /* Loop through movie sites layer and add only features which are in the map bounds */
-  movieSites.eachLayer(function (layer) {
-    if (map.hasLayer(movieSiteLayer)) {
+  /* Loop through film sites layer and add only features which are in the map bounds */
+  filmSites.eachLayer(function (layer) {
+    if (map.hasLayer(filmSiteLayer)) {
       if (map.getBounds().contains(layer.getLatLng())) {
-        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/moviesite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/filmsite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       }
     }
   });
@@ -128,6 +128,22 @@ function syncSidebar() {
     if (map.hasLayer(roadsideAttractionLayer)) {
       if (map.getBounds().contains(layer.getLatLng())) {
         $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/roadsideattraction.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      }
+    }
+  });
+  /* Loop through legends layer and add only features which are in the map bounds */
+  legends.eachLayer(function (layer) {
+    if (map.hasLayer(legendLayer)) {
+      if (map.getBounds().contains(layer.getLatLng())) {
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/legend.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      }
+    }
+  });
+   /* Loop through meteorites layer and add only features which are in the map bounds */
+  meteorites.eachLayer(function (layer) {
+    if (map.hasLayer(meteoriteLayer)) {
+      if (map.getBounds().contains(layer.getLatLng())) {
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/meteorite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       }
     }
   });
@@ -262,7 +278,7 @@ var caves = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
@@ -305,7 +321,7 @@ var waterfalls = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
@@ -346,7 +362,7 @@ var historicalMarkers = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
@@ -370,13 +386,13 @@ var historicalMarkers = L.geoJson(null, {
 $.getJSON("location?categoryId=1", function (data) {
   historicalMarkers.addData(data);
 });
-/* Empty layer placeholder to add to layer control for listening when to add/remove movie sites to markerClusters layer */
-var movieSiteLayer = L.geoJson(null);
-var movieSites = L.geoJson(null, {
+/* Empty layer placeholder to add to layer control for listening when to add/remove film sites to markerClusters layer */
+var filmSiteLayer = L.geoJson(null);
+var filmSites = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       icon: L.icon({
-        iconUrl: "assets/img/moviesite.png",
+        iconUrl: "assets/img/filmsite.png",
         iconSize: [24, 28],
         iconAnchor: [12, 28],
         popupAnchor: [0, -25]
@@ -387,7 +403,7 @@ var movieSites = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
@@ -396,11 +412,11 @@ var movieSites = L.geoJson(null, {
           highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
         }
       });
-      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/moviesite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
-      movieSiteSearch.push({
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/filmsite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      filmSiteSearch.push({
         name: layer.feature.properties.NAME,
         address: layer.feature.properties.ADRESS1,
-        source: "Movie Sites",
+        source: "Film Sites",
         id: L.stamp(layer),
         lat: layer.feature.geometry.coordinates[1],
         lng: layer.feature.geometry.coordinates[0]
@@ -409,7 +425,7 @@ var movieSites = L.geoJson(null, {
   }
 });
 $.getJSON("location?categoryId=5", function (data) {
-  movieSites.addData(data);
+  filmSites.addData(data);
 });
 /* Empty layer placeholder to add to layer control for listening when to add/remove roadside attractions to markerClusters layer */
 var roadsideAttractionLayer = L.geoJson(null);
@@ -428,7 +444,7 @@ var roadsideAttractions = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
@@ -449,8 +465,90 @@ var roadsideAttractions = L.geoJson(null, {
     }
   }
 });
-$.getJSON("location?categoryId=5", function (data) {
+$.getJSON("location?categoryId=2", function (data) {
   roadsideAttractions.addData(data);
+});
+/* Empty layer placeholder to add to layer control for listening when to add/remove legends to markerClusters layer */
+var legendLayer = L.geoJson(null);
+var legends = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/legend.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: feature.properties.NAME,
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      layer.on({
+        click: function (e) {
+          $("#feature-title").html(feature.properties.NAME);
+          $("#feature-info").html(content);
+          $("#featureModal").modal("show");
+          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+        }
+      });
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/legend.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      legendSearch.push({
+        name: layer.feature.properties.NAME,
+        address: layer.feature.properties.ADRESS1,
+        source: "Legends",
+        id: L.stamp(layer),
+        lat: layer.feature.geometry.coordinates[1],
+        lng: layer.feature.geometry.coordinates[0]
+      });
+    }
+  }
+});
+$.getJSON("location?categoryId=6", function (data) {
+  legends.addData(data);
+});
+/* Empty layer placeholder to add to layer control for listening when to add/remove meteorites to markerClusters layer */
+var meteoriteLayer = L.geoJson(null);
+var meteorites = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/meteorite.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: feature.properties.NAME,
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      layer.on({
+        click: function (e) {
+          $("#feature-title").html(feature.properties.NAME);
+          $("#feature-info").html(content);
+          $("#featureModal").modal("show");
+          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+        }
+      });
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/meteorite.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      meteoriteSearch.push({
+        name: layer.feature.properties.NAME,
+        address: layer.feature.properties.ADRESS1,
+        source: "Meteorites",
+        id: L.stamp(layer),
+        lat: layer.feature.geometry.coordinates[1],
+        lng: layer.feature.geometry.coordinates[0]
+      });
+    }
+  }
+});
+$.getJSON("location?categoryId=8", function (data) {
+  meteorites.addData(data);
 });
 map = L.map("map", {
   zoom: 7,
@@ -474,12 +572,20 @@ map.on("overlayadd", function(e) {
     markerClusters.addLayer(historicalMarkers);
     syncSidebar();
   }
-  if (e.layer === movieSiteLayer) {
-    markerClusters.addLayer(movieSites);
+  if (e.layer === filmSiteLayer) {
+    markerClusters.addLayer(filmSites);
     syncSidebar();
   }
   if (e.layer === roadsideAttractionLayer) {
     markerClusters.addLayer(roadsideAttractions);
+    syncSidebar();
+  }
+  if (e.layer === legendLayer) {
+    markerClusters.addLayer(legends);
+    syncSidebar();
+  }
+  if (e.layer === meteoriteLayer) {
+    markerClusters.addLayer(meteorites);
     syncSidebar();
   }
 });
@@ -497,12 +603,20 @@ map.on("overlayremove", function(e) {
     markerClusters.removeLayer(historicalMarkers);
     syncSidebar();
   }
-  if (e.layer === movieSiteLayer) {
-    markerClusters.removeLayer(movieSites);
+  if (e.layer === filmSiteLayer) {
+    markerClusters.removeLayer(filmSites);
     syncSidebar();
   }
   if (e.layer === roadsideAttractionLayer) {
     markerClusters.removeLayer(roadsideAttractions);
+    syncSidebar();
+  }
+  if (e.layer === legendLayer) {
+    markerClusters.removeLayer(legends);
+    syncSidebar();
+  }
+  if (e.layer === meteoriteLayer) {
+    markerClusters.removeLayer(meteorites);
     syncSidebar();
   }
 });
@@ -591,8 +705,10 @@ var groupedOverlays = {
     "<img src='assets/img/cave.png' width='24' height='28'>&nbsp;Caves": caveLayer,
     "<img src='assets/img/waterfall.png' width='24' height='28'>&nbsp;Waterfalls": waterfallLayer,
     "<img src='assets/img/historicalmarker.png' width='24' height='28'>&nbsp;Historical Markers": historicalMarkerLayer,
-    "<img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites": movieSiteLayer,
-    "<img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions": roadsideAttractionLayer
+    "<img src='assets/img/filmsite.png' width='24' height='28'>&nbsp;Film Sites": filmSiteLayer,
+    "<img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions": roadsideAttractionLayer,
+    "<img src='assets/img/legend.png' width='24' height='28'>&nbsp;Legends": legendLayer,
+    "<img src='assets/img/meteorite.png' width='24' height='28'>&nbsp;Meteorites": meteoriteLayer
 
   },
   "Reference": {
@@ -670,13 +786,13 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
-  var movieSitesBH = new Bloodhound({
-    name: "Movie Sites",
+  var filmSitesBH = new Bloodhound({
+    name: "Film Sites",
     datumTokenizer: function (d) {
       return Bloodhound.tokenizers.whitespace(d.name);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: movieSiteSearch,
+    local: filmSiteSearch,
     limit: 10
   });
 
@@ -687,6 +803,26 @@ $(document).one("ajaxStop", function () {
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     local: roadsideAttractionSearch,
+    limit: 10
+  });
+
+    var legendsBH = new Bloodhound({
+    name: "Legends",
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: legendSearch,
+    limit: 10
+  });
+
+    var meteoritesBH = new Bloodhound({
+    name: "Meteorites",
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: meteoriteSearch,
     limit: 10
   });
 
@@ -724,8 +860,10 @@ $(document).one("ajaxStop", function () {
   cavesBH.initialize();
   waterfallsBH.initialize();
   historicalMarkersBH.initialize();
-  movieSitesBH.initialize();
+  filmSitesBH.initialize();
   roadsideAttractionsBH.initialize();
+  legendsBH.initialize();
+  meteoritesBH.initialize();
   geonamesBH.initialize();
 
   /* instantiate the typeahead UI */
@@ -767,11 +905,11 @@ $(document).one("ajaxStop", function () {
     }
   },
   {
-    name: "Movie Sites",
+    name: "Film Sites",
     displayKey: "name",
-    source: movieSitesBH.ttAdapter(),
+    source: filmSitesBH.ttAdapter(),
     templates: {
-      header: "<h4 class='typeahead-header'><img src='assets/img/moviesite.png' width='24' height='28'>&nbsp;Movie Sites</h4>",
+      header: "<h4 class='typeahead-header'><img src='assets/img/filmsite.png' width='24' height='28'>&nbsp;Film Sites</h4>",
       suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
     }
   },
@@ -781,6 +919,24 @@ $(document).one("ajaxStop", function () {
     source: roadsideAttractionsBH.ttAdapter(),
     templates: {
       header: "<h4 class='typeahead-header'><img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions</h4>",
+      suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+    }
+  },
+  {
+    name: "Legends",
+    displayKey: "name",
+    source: legendsBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'><img src='assets/img/legend.png' width='24' height='28'>&nbsp;Legends</h4>",
+      suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+    }
+  },
+  {
+    name: "Meteorites",
+    displayKey: "name",
+    source: meteoritesBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'><img src='assets/img/meteorite.png' width='24' height='28'>&nbsp;Meteorites</h4>",
       suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
     }
   },
@@ -822,9 +978,9 @@ $(document).one("ajaxStop", function () {
         map._layers[datum.id].fire("click");
       }
     }
-    if (datum.source === "Movie Sites") {
-      if (!map.hasLayer(movieSiteLayer)) {
-        map.addLayer(movieSiteLayer);
+    if (datum.source === "Film Sites") {
+      if (!map.hasLayer(filmSiteLayer)) {
+        map.addLayer(filmSiteLayer);
       }
       map.setView([datum.lat, datum.lng], 17);
       if (map._layers[datum.id]) {
@@ -834,6 +990,24 @@ $(document).one("ajaxStop", function () {
     if (datum.source === "Roadside Attractions") {
       if (!map.hasLayer(roadsideAttractionLayer)) {
         map.addLayer(roadsideAttractionLayer);
+      }
+      map.setView([datum.lat, datum.lng], 17);
+      if (map._layers[datum.id]) {
+        map._layers[datum.id].fire("click");
+      }
+    }
+    if (datum.source === "Legends") {
+      if (!map.hasLayer(legendLayer)) {
+        map.addLayer(legendLayer);
+      }
+      map.setView([datum.lat, datum.lng], 17);
+      if (map._layers[datum.id]) {
+        map._layers[datum.id].fire("click");
+      }
+    }
+    if (datum.source === "Meteorites") {
+      if (!map.hasLayer(meteoriteLayer)) {
+        map.addLayer(meteoriteLayer);
       }
       map.setView([datum.lat, datum.lng], 17);
       if (map._layers[datum.id]) {
