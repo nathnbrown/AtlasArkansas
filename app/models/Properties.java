@@ -36,6 +36,8 @@ public class Properties {
     private String cITY;
     @JsonProperty("ZIP")
     private Double zIP;
+    @JsonProperty("DESCRIPTION")
+    private String dESCRIPTION;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -108,6 +110,18 @@ public class Properties {
     public void setZIP(Double zIP) {
         this.zIP = zIP;
     }
+
+
+    @JsonProperty("DESCRIPTION")
+    public String getDESCRIPTION() {
+        return dESCRIPTION;
+    }
+
+    @JsonProperty("DESCRIPTION")
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.dESCRIPTION = DESCRIPTION;
+    }
+
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {

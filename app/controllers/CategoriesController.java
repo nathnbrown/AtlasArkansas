@@ -32,7 +32,7 @@ public class CategoriesController extends Controller
     @Transactional(readOnly = true)
     public Result getLocation()
     {
-        //get cat it for request
+        //get cat id for request
         String id = request().getQueryString("categoryId");
         List<Place> places = (List<Place>) jpaApi.em().createQuery("select p from Place p where categoryId = :id").setParameter("id", id).getResultList();
 
@@ -43,6 +43,7 @@ public class CategoriesController extends Controller
             Feature feature = new Feature();
             feature.setId(place.placeId);
             feature.getProperties().setNAME(place.name);
+            feature.getProperties().setDESCRIPTION(place.description);
             feature.getProperties().setURL(place.url);
             feature.getGeometry().getCoordinates().add(place.longitude);
             feature.getGeometry().getCoordinates().add(place.latitude);
