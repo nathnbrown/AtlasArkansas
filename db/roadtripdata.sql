@@ -64,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `place` (
   PRIMARY KEY (`PLACE_ID`),
   KEY `category_place_fk` (`CATEGORY_ID`),
   CONSTRAINT `category_place_fk` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `category` (`CATEGORY_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
--- Dumping data for table roadtriparkansas.place: ~6 rows (approximately)
+-- Dumping data for table roadtriparkansas.place: ~16 rows (approximately)
 /*!40000 ALTER TABLE `place` DISABLE KEYS */;
 REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`, `URL`, `CATEGORY_ID`) VALUES
 	(1, 'Camp Shaver', 36.258050, -90.991940, 'Established to train troops near Pocahontas, Camp Shaver was the seventh largest regiment in Arkansas with over 1200 men.', ' ', 1),
@@ -84,7 +84,38 @@ REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`
 	(14, 'Hold $1 million in your hands', 34.746441, -92.287902, 'An exciting part of the Ar state capitol building tour, visitors are able to go into the treasurer\'s vault to hold and take pictures with the state\'s tax money.', ' ', 2),
 	(15, 'Wild Wilderness Drive-Thru', 36.296379, -94.496483, 'Basically.. a drive-thru zoo! 400 acres filled with exotic animals and featuring a petting zoo and picinic area.', ' ', 2),
 	(16, 'Snake World', 36.397820, -93.642920, 'A reptile ranch ran by Dale Ertel who provides an educational tour of over 70 species of reptiles(far more than the number of those dispayed at the Litlle Rock Zoo).', ' ', 2),
-	(17, 'Old Carollton', 36.262535, 93.321670, 'Settled in 1833 the town was used as a training center for troops until it was almost completely destroyed by Guerilla warfare in 1864.', 'http://www.arkansascivilwar150.com/historical-markers/quot-old-quot-carrollton', 1);
+	(17, 'Old Carollton', 36.262535, 93.321670, 'Settled in 1833 the town was used as a training center for troops until it was almost completely destroyed by Guerilla warfare in 1864.', 'http://www.arkansascivilwar150.com/historical-markers/quot-old-quot-carrollton', 1),
+	(18, 'Bower\'s Hollow Falls', 35.854300, -93.434600, 'Height: 56ft, Hike: Difficult bushwack, GPS: Highly recommended, Parking: Kapark Cemetary', ' ', 3),
+	(19, 'Cathedral Falls', 36.103320, -92.403600, 'Height: 87ft, Hike: Difficult bushwack, GPS: Required, Parking: Push Myn. Fire tower', ' ', 3),
+	(20, 'Compton\'s Double Falls', 35.879300, -93.462570, 'Height: 39ft, Hike: Medium bushwack, GPS: Helpful, Parking: none specified', ' ', 3),
+	(21, 'Cougar\'s Falls', 36.040550, -92.376850, 'Height: 77ft, Hike: easy bushwack, GPS: Helpful, Parking: none specified', ' ', 3),
+	(22, 'Dewey Canyon Falls', 36.090580, -92.347380, 'Height: 88ft, Hike: easy bushwack, GPS: Not needed, Parking: none specified', ' ', 3),
+	(23, 'Diamond Falls', 36.071670, -93.309460, 'Height: 148ft, Hike: difficult bushwack, GPS: Not needed, Parking: Compton Trailhead', ' ', 3),
+	(24, 'Eden Falls', 36.017520, -93.387300, 'Height: 53ft, Hike: easy, GPS: Not needed, Parking: Lost Valley Campground', ' ', 3),
+	(25, 'Fishtrap Hollow Falls', 36.064950, -93.298870, 'Height: 83ft, Hike: difficult bushwack, GPS: Highly recommended, Parking: Compton Trailead', ' ', 3),
+	(26, 'Funnel Falls', 36.069750, -92.438400, 'Height: 52ft, Hike: medium, GPS: Helpful, Parking: none specified', ' ', 3),
+	(27, 'Hedge\'s Pouroff', 35.944950, -93.417050, 'Height: 113ft, Hike: difficult, GPS: Not needed, Parking: none specified', ' ', 3),
+	(28, 'Helen\'s Pouroff', 36.096880, -92.393100, 'Height: 71ft, Hike: difficult, GPS: required, Parking: Push Mtn. Fire Tower', ' ', 3),
+	(29, 'Hemmed-In Hollow', 36.072130, -92.307530, 'Height: 209ft, Hike: difficult, GPS: not needed, Parking: Compton Trailhead', ' ', 3),
+	(30, 'Paradise Falls', 35.881180, -93.393100, 'Height: 32ft, Hike: difficult, GPS: recommended, Parking: none specified', ' ', 3),
+	(31, 'Thunder Canyon Falls', 36.084600, -93.254280, 'Height: 71ft, Hike: medium, GPS: recommended, Parking: Erbie Church', ' ', 3),
+	(32, 'Twin Falls at Richland Creek', 35.805820, -92.964070, 'Height: 19ft, Hike: difficult, GPS: recommended, Parking: Hill Cemetary', ' ', 3),
+	(33, 'Triple Falls', 36.054700, -93.258300, 'Height: 48ft , Hike: easy, GPS: not needed, Parking: none specified', ' ', 3),
+	(34, 'Tunnel Cave Falls', 36.029480, -93.287570, 'Height: 31ft , Hike: difficult, GPS: helpful, Parking: Kyle\'s Landing Campground', ' ', 3),
+	(35, 'Devil\'s Canyon Falls', 35.637580, -94.034880, 'Height: 63ft , Hike: difficult, GPS: recommended, Parking: none spcified', ' ', 3),
+	(36, 'Dockery Gap Falls', 35.720520, -94.017170, 'Height: 36ft , Hike: difficult, GPS: recommended, Parking: none specified', ' ', 3),
+	(37, 'Forever Falls', 35.591880, -93.189150, 'Height: 47ft, Hike: difficult, GPS: recommended, Parking: none specified', ' ', 3),
+	(38, 'Glory Hole', 35.822100, -93.393520, 'Height: 31ft, Hike: medium, GPS: not needed , Parking: none specified', ' ', 3),
+	(39, 'High Bank Twins', 35.680770, -93.686940, 'Height: 71ft, Hike: easy, GPS: not needed, Parking: High Bank Canoe Access', ' ', 3),
+	(40, 'Kings Bluff Falls', 35.724800, -93.025120, 'Height: 114ft, Hike: easy, GPS: not needed, Parking: Pedestal Rocks Scenic Trailhead', ' ', 3),
+	(41, 'Kings River Falls', 35.901900, -93.574430, 'Height: 10ft, Hike: easy, GPS: not needed, Parking: Williams Cemetary', ' ', 3),
+	(42, 'Steele Falls', 36.017280, -92.179630, 'Height: 66ft, Hike: medium, GPS: not needed, Parking: none specified', ' ', 3),
+	(43, 'Murray Falls', 35.743280, -93.807730, 'Height: 37ft, Hike: medium, GPS: helpful , Parking: Cherry Bend Trailhead', ' ', 3),
+	(44, 'Sweden Creek Falls', 35.971450, -93.459150, 'Height: 81ft, Hike: medium, GPS: helpful, Parking: none specified', ' ', 3),
+	(45, 'Tea Kettle Falls', 36.266330, -93.714870, 'Height: 46ft, Hike: medium, GPS: helpful, Parking: none specified', ' ', 3),
+	(46, 'Cossatot Falls', 34.319470, -94.226770, 'Height: 33ft, Hike: easy, GPS: not needed, Parking: Cossatot Falls Campground', ' ', 3),
+	(47, 'Little Missouri Falls', 34.421620, -93.918750, 'Height: 2ft, Hike: easy, GPS: not needed, Parking: Little Missourri Picinic Area', ' ', 3),
+	(48, 'Slate Falls', 34.983300, -94.271740, 'Height: 54ft, Hike: medium-difficult, GPS: recommended, Parking: none specified', ' ', 3);
 /*!40000 ALTER TABLE `place` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
