@@ -1,4 +1,4 @@
-var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], filmSiteSearch = [], roadsideAttractionSearch = [], legendSearch = [], meteoriteSearch = [];   		
+var map, featureList, arkansasSearch = [], caveSearch = [], waterfallSearch = [], historicalMarkerSearch = [], filmSiteSearch = [], roadsideAttractionSearch = [], legendSearch = [], meteoriteSearch = [], peakSearch = [];   		
 
 $(window).resize(function() {
   sizeLayerControl();
@@ -147,6 +147,14 @@ function syncSidebar() {
       }
     }
   });
+   /* Loop through peaks layer and add only features which are in the map bounds */
+  peaks.eachLayer(function (layer) {
+    if (map.hasLayer(peakLayer)) {
+      if (map.getBounds().contains(layer.getLatLng())) {
+        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/peak.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      }
+    }
+  });
   /* Update list.js featureList */
   featureList = new List("features", {
     valueNames: ["feature-name"]
@@ -161,7 +169,8 @@ var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net
   maxZoom: 69,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 });
-var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}", {
+
+var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}", {
   maxZoom: 15,
 }), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
   minZoom: 16,
@@ -171,6 +180,42 @@ var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcg
   transparent: true,
   attribution: "Aerial Imagery courtesy USGS"
 })]);
+
+var waterways = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}", {
+  maxZoom: 15,
+}), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
+  minZoom: 16,
+  maxZoom: 15,
+  layers: "0",
+  format: 'image/jpeg',
+  transparent: true,
+  attribution: "Aerial Imagery courtesy USGS"
+})]);
+
+var topo = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}", {
+  maxZoom: 15,
+}), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
+  minZoom: 16,
+  maxZoom: 15,
+  layers: "0",
+  format: 'image/jpeg',
+  transparent: true,
+  attribution: "Aerial Imagery courtesy USGS"
+})]);
+
+var earth = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}", {
+  maxZoom: 15,
+}), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
+  minZoom: 16,
+  maxZoom: 15,
+  layers: "0",
+  format: 'image/jpeg',
+  transparent: true,
+  attribution: "Aerial Imagery courtesy USGS"
+})]);
+
+
+
 
 /* Overlay Layers */
 var highlight = L.geoJson(null);
@@ -249,7 +294,7 @@ var historicRoutes = L.geoJson(null, {
     });
   }
 });
-$.getJSON("data/historicRoutes.geojson", function (data) {
+$.getJSON("assets/data/historicRoutes.geojson", function (data) {
   historicRoutes.addData(data);
 });
 
@@ -550,6 +595,48 @@ var meteorites = L.geoJson(null, {
 $.getJSON("location?categoryId=8", function (data) {
   meteorites.addData(data);
 });
+/* Empty layer placeholder to add to layer control for listening when to add/remove peaks to markerClusters layer */
+var peakLayer = L.geoJson(null);
+var peaks = L.geoJson(null, {
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: "assets/img/peak.png",
+        iconSize: [24, 28],
+        iconAnchor: [12, 28],
+        popupAnchor: [0, -25]
+      }),
+      title: feature.properties.NAME,
+      riseOnHover: true
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    if (feature.properties) {
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "<tr><th>Description</th><td>" + feature.properties.DESCRIPTION + "</td></tr>" + "</td></tr>" + "</td></tr>" + "<tr><th>Latitude</th><td>" + layer.feature.geometry.coordinates[1] + "<tr><th>Longitude</th><td>" + layer.feature.geometry.coordinates[0] + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      layer.on({
+        click: function (e) {
+          $("#feature-title").html(feature.properties.NAME);
+          $("#feature-info").html(content);
+          $("#featureModal").modal("show");
+          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+        }
+      });
+      $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/peak.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+      peakSearch.push({
+        name: layer.feature.properties.NAME,
+        address: layer.feature.properties.ADRESS1,
+        source: "Peaks",
+        id: L.stamp(layer),
+        lat: layer.feature.geometry.coordinates[1],
+        lng: layer.feature.geometry.coordinates[0]
+      });
+    }
+  }
+});
+$.getJSON("location?categoryId=10", function (data) {
+  peaks.addData(data);
+});
+
 map = L.map("map", {
   zoom: 7,
   center: [35.0887000, -92.4421000],
@@ -588,6 +675,10 @@ map.on("overlayadd", function(e) {
     markerClusters.addLayer(meteorites);
     syncSidebar();
   }
+  if (e.layer === peakLayer) {
+    markerClusters.addLayer(peaks);
+    syncSidebar();
+  }
 });
 
 map.on("overlayremove", function(e) {
@@ -617,6 +708,10 @@ map.on("overlayremove", function(e) {
   }
   if (e.layer === meteoriteLayer) {
     markerClusters.removeLayer(meteorites);
+    syncSidebar();
+  }
+  if (e.layer === peakLayer) {
+    markerClusters.removeLayer(peaks);
     syncSidebar();
   }
 });
@@ -696,8 +791,12 @@ if (document.body.clientWidth <= 767) {
 }
 
 var baseLayers = {
-  "Base Map": cartoLight,
-  "Physical Features": usgsImagery
+  "Street Map": cartoLight,
+  "Topo": topo,
+  "Relief": usgsImagery,
+  "Waterways": waterways,
+  "Earth": earth
+
 };
 
 var groupedOverlays = {
@@ -708,7 +807,8 @@ var groupedOverlays = {
     "<img src='assets/img/filmsite.png' width='24' height='28'>&nbsp;Film Sites": filmSiteLayer,
     "<img src='assets/img/roadsideattraction.png' width='24' height='28'>&nbsp;Roadside Attractions": roadsideAttractionLayer,
     "<img src='assets/img/legend.png' width='24' height='28'>&nbsp;Legends": legendLayer,
-    "<img src='assets/img/meteorite.png' width='24' height='28'>&nbsp;Meteorites": meteoriteLayer
+    "<img src='assets/img/meteorite.png' width='24' height='28'>&nbsp;Meteorites": meteoriteLayer,
+    "<img src='assets/img/peak.png' width='24' height='28'>&nbsp;Peaks": peakLayer
 
   },
   "Reference": {
@@ -826,6 +926,16 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
+    var peaksBH = new Bloodhound({
+    name: "Peaks",
+    datumTokenizer: function (d) {
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: peakSearch,
+    limit: 10
+  });
+
   var geonamesBH = new Bloodhound({
     name: "GeoNames",
     datumTokenizer: function (d) {
@@ -864,6 +974,7 @@ $(document).one("ajaxStop", function () {
   roadsideAttractionsBH.initialize();
   legendsBH.initialize();
   meteoritesBH.initialize();
+  peaksBH.initialize();
   geonamesBH.initialize();
 
   /* instantiate the typeahead UI */
@@ -941,6 +1052,15 @@ $(document).one("ajaxStop", function () {
     }
   },
   {
+    name: "Peaks",
+    displayKey: "name",
+    source: peaksBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'><img src='assets/img/peak.png' width='24' height='28'>&nbsp;Peaks</h4>",
+      suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+    }
+  },
+  {
     name: "GeoNames",
     displayKey: "name",
     source: geonamesBH.ttAdapter(),
@@ -1008,6 +1128,15 @@ $(document).one("ajaxStop", function () {
     if (datum.source === "Meteorites") {
       if (!map.hasLayer(meteoriteLayer)) {
         map.addLayer(meteoriteLayer);
+      }
+      map.setView([datum.lat, datum.lng], 17);
+      if (map._layers[datum.id]) {
+        map._layers[datum.id].fire("click");
+      }
+    }
+    if (datum.source === "Peaks") {
+      if (!map.hasLayer(peakLayer)) {
+        map.addLayer(peakLayer);
       }
       map.setView([datum.lat, datum.lng], 17);
       if (map._layers[datum.id]) {
