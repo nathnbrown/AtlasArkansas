@@ -13,12 +13,10 @@
 
 
 -- Dumping database structure for roadtriparkansas
-DROP DATABASE IF EXISTS `roadtriparkansas`;
 CREATE DATABASE IF NOT EXISTS `roadtriparkansas` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `roadtriparkansas`;
 
 -- Dumping structure for table roadtriparkansas.category
-DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `CATEGORY_ID` int(11) NOT NULL AUTO_INCREMENT,
   `CATEGORY_NAME` char(50) NOT NULL,
@@ -37,7 +35,6 @@ REPLACE INTO `category` (`CATEGORY_ID`, `CATEGORY_NAME`) VALUES
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- Dumping structure for table roadtriparkansas.photo
-DROP TABLE IF EXISTS `photo`;
 CREATE TABLE IF NOT EXISTS `photo` (
   `PHOTO_ID` int(11) NOT NULL AUTO_INCREMENT,
   `PHOTO_DATA` longblob NOT NULL,
@@ -52,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `photo` (
 /*!40000 ALTER TABLE `photo` ENABLE KEYS */;
 
 -- Dumping structure for table roadtriparkansas.place
-DROP TABLE IF EXISTS `place`;
 CREATE TABLE IF NOT EXISTS `place` (
   `PLACE_ID` int(11) NOT NULL AUTO_INCREMENT,
   `NAME` char(50) NOT NULL,
@@ -66,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `place` (
   CONSTRAINT `category_place_fk` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `category` (`CATEGORY_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
--- Dumping data for table roadtriparkansas.place: ~16 rows (approximately)
+-- Dumping data for table roadtriparkansas.place: ~47 rows (approximately)
 /*!40000 ALTER TABLE `place` DISABLE KEYS */;
 REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`, `URL`, `CATEGORY_ID`) VALUES
 	(1, 'Camp Shaver', 36.258050, -90.991940, 'Established to train troops near Pocahontas, Camp Shaver was the seventh largest regiment in Arkansas with over 1200 men.', ' ', 1),
@@ -115,7 +111,24 @@ REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`
 	(45, 'Tea Kettle Falls', 36.266330, -93.714870, 'Height: 46ft, Hike: medium, GPS: helpful, Parking: none specified', ' ', 3),
 	(46, 'Cossatot Falls', 34.319470, -94.226770, 'Height: 33ft, Hike: easy, GPS: not needed, Parking: Cossatot Falls Campground', ' ', 3),
 	(47, 'Little Missouri Falls', 34.421620, -93.918750, 'Height: 2ft, Hike: easy, GPS: not needed, Parking: Little Missourri Picinic Area', ' ', 3),
-	(48, 'Slate Falls', 34.983300, -94.271740, 'Height: 54ft, Hike: medium-difficult, GPS: recommended, Parking: none specified', ' ', 3);
+	(48, 'Slate Falls', 34.983300, -94.271740, 'Height: 54ft, Hike: medium-difficult, GPS: recommended, Parking: none specified', ' ', 3),
+	(49, 'Quigley\'s Castle', 36.346980, -93.757826, 'The dream home of Elise Quigley (1910-1984) who\'s grandchildren now keep up the unique property and invite visitors to wander through her perennial garden of over 400 varieties of flowers. You can also view her outstanding butterfly, arrrowhead, and fossil collections.', ' ', 2),
+	(50, 'Ozark Medieval Fortres', 36.420013, -92.917544, 'Abandoned and requiring a buyer or investor to be functonal, the Ozark Medieval Fortress is a project that was designed to construct an accurate replica of a 13th century French castle using only materials and techniques appropriate for that era.', ' ', 2),
+	(51, 'The Old Mill', 34.791564, -92.250318, 'Appearing in the opening scene of the renowned classic \'Gone with the Wind\'(1939), this beautiful work of art is authentic replicaof an old water powered grist mill.', ' ', 2),
+	(52, 'Homebuilt Razorback', 36.381902, -93.595175, 'With stubby and a fierce, catoonish face this homemade monster is just begging for a photo op.', ' ', 2),
+	(53, 'Terra Studios', 35.839040, -93.978486, 'Being the home of the Original Bluebird of Happiness, with glassblowing demonstrations, a vast gallery,and an Art Park filled with sculptures, murals, art installations, and fountains, this is the ideal stop for art enthusiasts of all time.', ' ', 2),
+	(54, 'NASCAR Mark Martin Museum', 35.713524, -91.631681, 'A state of the art museum woth an ellaborate display of several past cars and pieces of NASCAR history with hi-tech mantrons that tell the story of each piece.', ' ', 2),
+	(55, 'Giant Beer Can', 35.312001, -94.198478, 'Farmer and Budweiser lover Earle Harris Sr. painted one of his silos to look like a giant can of the brew circa 1975-76. Located southwest of town on the southeast corner of hwy 22 and 96.', ' ', 2),
+	(56, 'Ozark\'s Largest Rocking Chair', 36.391440, -93.731189, 'Standing 8ft tall and 5ft wide a picturein this enormous rocker is a must', ' ', 2),
+	(57, 'Maxwell Blade\'s Odditorium and Curiosities', 34.518277, -93.055036, 'A museum of over 300 oddities and rare exhibits.', ' ', 2),
+	(58, 'Billy Bass Asoption Center', 34.747202, -92.265109, 'Filled with hundreds of these annoying novelties, this is a place where poor Billy Bass come to die(sit tacked to a wall inevitably). Most brung in by wives who tell workers \'If he comes for it, tell him it isn\'t here.\'', ' ', 2),
+	(59, 'Peppersauce Ghost Town', 36.118086, -92.141312, 'Abandoned East Calico, a street lined with ghostly overgrown buildings that have seen better days, markers in front of many tell the stories of their past.', ' ', 6),
+	(60, 'Rush Ghost Town', 36.132500, -92.571100, 'Population ), Rush was once a prosperousmining community, now completely abandoned, visitors are just asked to be respectful of the structures. ', ' ', 6),
+	(61, 'Cresent Hotel', 36.408300, -93.737300, 'Opened first as a resort, second as a college for girls, then as a hospital and fianally as the hotel we know today. Much of the legends surroun the hospital days of the hotel when the corrupt \'doctor\' Norman Baker killed hundreds of cancer patients with his \'cure\'.', ' ', 6),
+	(62, 'Boggy creek Monster', 33.261272, -93.885500, 'Best described as a big-foot type creature with numerous claimed sightings that gave rise to the movie The Boggy Creek Monster and it\'s sequel.', ' ', 6),
+	(63, 'Dehorn\'s Grave', 35.225683, -91.221055, 'The haunted grave of Reverend William Dehorn who was a known fortune teller from the late 1800\'s to the early 1900\'s. His head stone sits away from he rest in a very rural African Americsn cemetary where it is surrounded by sany ground and large cacti.', ' ', 6),
+	(64, 'Gaudy Goddess of Feminine Cosmic Energy', 36.402420, -93.737100, 'Aza, which is short for Adora Zerlina Astra was built in late 2012 by sculptor Bruce Anderson. She is a non-denominational goddess, a composite of various deities that Anderson says celebrates the feminine energy of the cosmos.', ' ', 2),
+	(65, 'Christ of the Ozarks', 36.402422, -93.737105, 'Christ of the Ozarks statue is a monumental sculpture of Jesus located near Eureka Springs, Arkansas, atop Magnetic Mountain. It was erected in 1966 as a \'Sacred Project\' by Gerald L. K. Smith and stands 65.5 feet high.', ' ', 2);
 /*!40000 ALTER TABLE `place` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
