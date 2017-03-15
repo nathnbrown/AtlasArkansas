@@ -29,4 +29,5 @@ public class Place
     @Column(name = "CATEGORY_ID")
     public String categoryId;
 
+
 }
