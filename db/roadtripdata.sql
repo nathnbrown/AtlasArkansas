@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `place` (
   PRIMARY KEY (`PLACE_ID`),
   KEY `category_place_fk` (`CATEGORY_ID`),
   CONSTRAINT `category_place_fk` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `category` (`CATEGORY_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=latin1;
 
--- Dumping data for table roadtriparkansas.place: ~47 rows (approximately)
+-- Dumping data for table roadtriparkansas.place: ~114 rows (approximately)
 /*!40000 ALTER TABLE `place` DISABLE KEYS */;
 REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`, `URL`, `CATEGORY_ID`) VALUES
 	(1, 'Camp Shaver', 36.258050, -90.991940, 'Established to train troops near Pocahontas, Camp Shaver was the seventh largest regiment in Arkansas with over 1200 men.', ' ', 1),
@@ -76,6 +76,7 @@ REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`
 	(9, 'Little Rock Central High: 50 Years Later', 34.736794, -92.298468, 'A 2007 documentary following the lives of present day students and focusing on the racial, social, and economic diversity in their lives.', ' ', 5),
 	(10, 'Shotgun Stories', 34.619882, -92.025334, '2007 film following a fued between two brothers after he death of their father.', ' ', 5),
 	(11, 'Daddy and Them', 34.836235, -92.470588, 'A 2001 film written, directed, and starred by Arkansas\' own Billy Bob Thornton.', ' ', 5),
+	(12, 'Confederate Camp at Richmond Church and Cemetery', 33.638210, -94.183810, ' ', 'http://www.arkansascivilwar150.com/historical-markers/confederate-camp-at-richmond-richmond-church-and-cemetery', 1),
 	(13, 'Avon Cemetary', 34.516685, -93.053171, 'It is said if you drop a rock in the well located in the middle of the cemetary, you\'ll hear the cries of a baby whose mother was drawing water form the well when he/she accidentally fell in and drowned. Local tales also say the mother can be seen running through the cemetary at night.', ' ', 6),
 	(14, 'Hold $1 million in your hands', 34.746441, -92.287902, 'An exciting part of the Ar state capitol building tour, visitors are able to go into the treasurer\'s vault to hold and take pictures with the state\'s tax money.', ' ', 2),
 	(15, 'Wild Wilderness Drive-Thru', 36.296379, -94.496483, 'Basically.. a drive-thru zoo! 400 acres filled with exotic animals and featuring a petting zoo and picinic area.', ' ', 2),
@@ -128,7 +129,57 @@ REPLACE INTO `place` (`PLACE_ID`, `NAME`, `LATITUDE`, `LONGITUDE`, `DESCRIPTION`
 	(62, 'Boggy creek Monster', 33.261272, -93.885500, 'Best described as a big-foot type creature with numerous claimed sightings that gave rise to the movie The Boggy Creek Monster and it\'s sequel.', ' ', 6),
 	(63, 'Dehorn\'s Grave', 35.225683, -91.221055, 'The haunted grave of Reverend William Dehorn who was a known fortune teller from the late 1800\'s to the early 1900\'s. His head stone sits away from he rest in a very rural African Americsn cemetary where it is surrounded by sany ground and large cacti.', ' ', 6),
 	(64, 'Gaudy Goddess of Feminine Cosmic Energy', 36.402420, -93.737100, 'Aza, which is short for Adora Zerlina Astra was built in late 2012 by sculptor Bruce Anderson. She is a non-denominational goddess, a composite of various deities that Anderson says celebrates the feminine energy of the cosmos.', ' ', 2),
-	(65, 'Christ of the Ozarks', 36.402422, -93.737105, 'Christ of the Ozarks statue is a monumental sculpture of Jesus located near Eureka Springs, Arkansas, atop Magnetic Mountain. It was erected in 1966 as a \'Sacred Project\' by Gerald L. K. Smith and stands 65.5 feet high.', ' ', 2);
+	(65, 'Christ of the Ozarks', 36.402422, -93.737105, 'Christ of the Ozarks statue is a monumental sculpture of Jesus located near Eureka Springs, Arkansas, atop Magnetic Mountain. It was erected in 1966 as a \'Sacred Project\' by Gerald L. K. Smith and stands 65.5 feet high.', ' ', 2),
+	(66, '\'Old\' Carrollton', 36.262534, -93.321667, ' ', 'http://www.arkansascivilwar150.com/historical-markers/quot-old-quot-carrollton', 1),
+	(67, '11th Ar Infantry Regiment', 34.579003, -92.588818, ' ', 'http://www.arkansascivilwar150.com/historical-markers/11th-arkansas-infantry-regiment', 1),
+	(68, '14th Arkansas Infantry, C.S.A.', 36.413965, -92.904779, ' ', 'http://www.arkansascivilwar150.com/historical-markers/14th-arkansas-infantry-c-s-a', 1),
+	(69, '1st Arkansas Cavalry (U.S.)', 36.461710, -93.753050, ' ', 'http://www.arkansascivilwar150.com/historical-markers/1st-arkansas-cavalry-u-s', 1),
+	(70, '1st Kansas Colored Infantry', 33.651760, -92.969030, ' ', 'http://www.arkansascivilwar150.com/historical-markers/1st-kansas-colored-infantry', 1),
+	(71, '5th Arkansas Infantry Regiment', 36.129480, -90.538700, ' ', 'http://www.arkansascivilwar150.com/historical-markers/5th-arkansas-infantry-regiment', 1),
+	(72, 'Action at Ashley\'s Station', 34.782782, -91.747759, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-ashleys-station', 1),
+	(73, 'Action at Cotton Plant', 35.007517, -91.258145, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-cotton-plant', 1),
+	(74, 'Action At Dardanelle', 35.237490, -93.163370, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-dardanelle', 1),
+	(75, 'Action at Des Arc Bayou', 35.203280, -91.777910, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-des-arc-bayou', 1),
+	(76, 'Action at Fitzhugh\'s Woods', 35.341800, -91.357200, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-fitzhughs-woods', 1),
+	(77, 'Action at Moscow/Moscow Church and Cemtery', 33.776760, -93.366140, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-moscow-moscow-church-and-cemtery', 1),
+	(78, 'Action at Salem', 36.495950, -91.536070, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-salem', 1),
+	(79, 'Action At Whitney\'s Lane', 35.246070, -91.675760, ' ', 'http://www.arkansascivilwar150.com/historical-markers/action-at-whitneys-lane', 1),
+	(80, 'Arkansas in the Battle of New Market', 34.737190, -92.278490, ' ', 'http://www.arkansascivilwar150.com/historical-markers/arkansas-in-the-battle-of-new-market', 1),
+	(81, 'Arkansas Military Institute/Tulip in the Civil War', 34.086060, -92.654700, ' ', 'http://www.arkansascivilwar150.com/historical-markers/arkansas-military-institute-tulip-in-the-civil-war', 1),
+	(82, 'Ar Peace Society/Federal Raids', 35.906970, -92.629630, ' ', 'http://www.arkansascivilwar150.com/historical-markers/arkansas-peace-society-federal-raids-on-burrowville', 1),
+	(83, 'Ashley County in the Civil War', 33.227000, -91.795740, ' ', 'http://www.arkansascivilwar150.com/historical-markers/ashley-county-in-the-civil-war-third-arkansas-infantry-regiment', 1),
+	(84, 'Austin in the Civil War', 34.983880, -91.965280, ' ', 'http://www.arkansascivilwar150.com/historical-markers/austin-in-the-civil-war', 1),
+	(85, 'Batesville During The Civil War', 35.772450, -91.644140, ' ', 'http://www.arkansascivilwar150.com/historical-markers/batesville-during-the-civil-war', 1),
+	(86, 'Battery A', 34.536240, -90.591700, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battery-a', 1),
+	(87, 'Battery B', 34.533580, -90.597690, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battery-b', 1),
+	(88, 'Battery D', 34.519420, -90.595500, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battery-d', 1),
+	(89, 'Battle of Arkansas Post', 34.033110, -91.373540, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battle-of-arkansas-post', 1),
+	(90, 'Battle of Cane Hill', 35.908890, -94.396450, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battle-of-cane-hill', 1),
+	(91, 'Battle of Jenkins Ferry', 34.300210, -92.414080, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battle-of-jenkins-ferry', 1),
+	(92, 'Mills/Marks Family Experience', 33.785290, -92.244170, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battle-of-marks-mills-marks-family-experience', 1),
+	(93, 'Battle of Maysville', 36.404030, -94.602060, ' ', 'http://www.arkansascivilwar150.com/historical-markers/battle-of-maysville', 1),
+	(94, 'Bayou Metre Hornets', 34.880380, -92.108980, ' ', 'http://www.arkansascivilwar150.com/historical-markers/bayou-metre-hornets', 1),
+	(95, 'Berryville in the Civil War', 36.364560, -93.567490, ' ', 'http://www.arkansascivilwar150.com/historical-markers/berryville-in-the-civil-war', 1),
+	(96, 'Boone-Murphy House/Union Strategy and Pine Bluff', 34.225920, -92.010150, ' ', 'http://www.arkansascivilwar150.com/historical-markers/boone-murphy-house-union-strategy-and-pine-bluff', 1),
+	(97, 'Bradley County Troops', 33.616600, -92.065500, ' ', 'http://www.arkansascivilwar150.com/historical-markers/bradley-county-troops', 1),
+	(98, 'Bridging the Ouachita River', 34.381940, -92.826450, ' ', 'http://www.arkansascivilwar150.com/historical-markers/bridging-the-ouachita-river', 1),
+	(99, 'Brig. Gen. Dandridge McRae', 35.253290, -91.731340, ' ', 'http://www.arkansascivilwar150.com/historical-markers/brig-gen-dandridge-mcrae', 1),
+	(100, 'C.S.S. Pontchartrain', 34.752750, -92.268610, ' ', 'http://www.arkansascivilwar150.com/historical-markers/c-s-s-pontchartrain', 1),
+	(101, 'Cadron in the Civil War', 35.107280, -92.546130, ' ', 'http://www.arkansascivilwar150.com/historical-markers/cadron-in-the-civil-war', 1),
+	(102, 'Camp Halleck at Osage Springs', 36.314540, -94.179780, ' ', 'http://www.arkansascivilwar150.com/historical-markers/camp-halleck-at-osage-springs', 1),
+	(103, 'Camp Jackson/Confederate Dead', 36.390400, -94.508560, ' ', 'http://www.arkansascivilwar150.com/historical-markers/camp-jackson-confederate-dead', 1),
+	(104, 'Camp Shaver', 36.258050, -90.991000, ' ', 'http://www.arkansascivilwar150.com/historical-markers/camp-shaver', 1),
+	(105, 'Camp Walker', 36.410090, -94.568730, ' ', 'http://www.arkansascivilwar150.com/historical-markers/camp-walker', 1),
+	(106, 'Capture of Missouri \'Swamp Fox\'', 36.261256, -90.969700, ' ', 'http://www.arkansascivilwar150.com/historical-markers/capture-of-missouri-swamp-fox', 1),
+	(107, 'Center Point', 34.026700, -93.947670, ' ', 'http://www.arkansascivilwar150.com/historical-markers/center-point', 1),
+	(108, 'Chalk Bluff in the Civil War', 36.477510, -90.166690, ' ', 'http://www.arkansascivilwar150.com/historical-markers/chalk-bluff-in-the-civil-war', 1),
+	(109, 'Civil War Healing', 36.401290, -93.738180, ' ', 'http://www.arkansascivilwar150.com/historical-markers/civil-war-healing', 1),
+	(110, 'Civil War in Fulton County', 36.495950, -91.536070, ' ', 'http://www.arkansascivilwar150.com/historical-markers/civil-war-in-fulton-county', 1),
+	(111, 'Clarendon in the Civil War', 34.413460, -91.184820, ' ', 'http://www.arkansascivilwar150.com/historical-markers/clarendon-in-the-civil-war', 1),
+	(112, 'Clarksville in the Civil War', 35.470920, -93.465100, ' ', 'http://www.arkansascivilwar150.com/historical-markers/clarksville-in-the-civil-war', 1),
+	(113, 'Clash at Whitten\'s Mill', 34.315100, -92.552280, ' ', 'http://www.arkansascivilwar150.com/historical-markers/clash-at-whittens-mill', 1),
+	(114, 'Confederate and Union Occupation of Fort Smith', 35.388050, -94.428770, ' ', 'http://www.arkansascivilwar150.com/historical-markers/confederate-and-union-occupation-of-fort-smith', 1),
+	(115, 'Confederate Capital', 33.776450, -93.681600, ' ', 'http://www.arkansascivilwar150.com/historical-markers/confederate-capital', 1);
 /*!40000 ALTER TABLE `place` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
