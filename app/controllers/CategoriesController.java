@@ -1,12 +1,16 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.*;
+import play.Logger;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import javax.inject.Inject;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 
@@ -68,7 +72,104 @@ public class CategoriesController extends Controller
         return ok(jsonString);
     }
 
+    public Result getISSJSON()
+    {
 
+        JsonNode jsonNode = null;
+        try
+        {
+            String myURL = "http://api.open-notify.org/iss-now.json";
+
+            URL url = new URL(myURL);
+
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request.connect();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            jsonNode = objectMapper.readValue(url, JsonNode.class);
+
+            System.out.println(jsonNode);
+        }
+        catch (Exception e)
+        {
+            Logger.error("oh no! got some exception: " + e.getMessage());
+        }
+
+        if (jsonNode == null)
+        {
+            Logger.warn("oh no! got nothing back from url");
+        }
+
+        return ok(jsonNode);
+    }
+
+    @Transactional(readOnly = true)
+    public Result getISSLocation()
+    {
+
+        JsonNode jsonNode = null;
+        try
+        {
+            String myURL = "http://api.open-notify.org/iss-now.json";
+
+            URL url = new URL(myURL);
+
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request.connect();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            jsonNode = objectMapper.readValue(url, JsonNode.class);
+
+            System.out.println(jsonNode);
+        }
+        catch (Exception e)
+        {
+            Logger.error("oh no! got some exception: " + e.getMessage());
+        }
+
+        if (jsonNode == null)
+        {
+            Logger.warn("oh no! got nothing back from url");
+        }
+
+        //get cat id for request
+        double longitude;
+        double latitude;
+        String iss = "International Space Station";
+        String description = "Current location of the ISS";
+        String url = "iss.astroviewer.net/";
+
+
+        latitude = jsonNode.findValue("latitude").asDouble();
+        longitude = jsonNode.findValue("longitude").asDouble();
+
+        GeoJSON geoJSON = new GeoJSON();
+
+        Feature feature = new Feature();
+        feature.getGeometry().getCoordinates().add(longitude);
+        feature.getGeometry().getCoordinates().add(latitude);
+        feature.getProperties().setNAME(iss);
+        feature.getProperties().setDESCRIPTION(description);
+        feature.getProperties().setURL(url);
+
+        geoJSON.getFeatures().add(feature);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String jsonString = null;
+
+        try
+        {
+            jsonString = mapper.writeValueAsString(geoJSON);
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        System.out.println(jsonString);
+
+        return ok(jsonString);
+    }
 
 
 /*

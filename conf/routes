@@ -12,3 +12,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /map                        controllers.CategoriesController.getMap
 
 GET     /location                   controllers.CategoriesController.getLocation
+
+GET     /issjson                    controllers.CategoriesController.getISSJSON
+
+GET     /isslocation                controllers.CategoriesController.getISSLocation

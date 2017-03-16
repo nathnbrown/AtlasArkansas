@@ -175,3 +175,13 @@ input[type="radio"], input[type="checkbox"] {
     display: none !important;
   }
 }
+
+.navbar-brand
+{font-family: 'Lato', sans-serif;
+color:white !important;
+}
+
+.tt-suggestion 
+{font-family: 'Lato', sans-serif;
+color:white !important;
+}
