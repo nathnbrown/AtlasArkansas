@@ -274,10 +274,10 @@ var historicRoutes = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Division</th><td>" + feature.properties.Division + "</td></tr>" + "<tr><th>Line</th><td>" + feature.properties.Line + "</td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Route</th><td>" + feature.properties.Route + "</td></tr>" + "<tr><th>Description</th><td>" + feature.properties.Description + "</td></tr>" + "<table>";
       layer.on({
         click: function (e) {
-          $("#feature-title").html(feature.properties.Line);
+          $("#feature-title").html(feature.properties.Description);
           $("#feature-info").html(content);
           $("#featureModal").modal("show");
 
